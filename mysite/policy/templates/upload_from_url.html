@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload PDFs from URL</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f6f8;
+            padding: 40px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="url"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        button, .btn {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        button:hover, .btn:hover {
+            background: #0056b3;
+        }
+        .footer-buttons {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🔗 Upload PDFs by URL</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <label for="url">Website URL:</label>
+        {{ form.url }}
+        <button type="submit">📥 Start Extraction</button>
+    </form>
+
+    <div class="footer-buttons">
+        <a href="{% url 'view_url_pdfs' %}" class="btn">📂 View Extracted Files</a>
+        <a href="/" class="btn">⬅️ Back to Upload</a>
+    </div>
+
+    {% if count %}
+        <hr>
+        <h2>✅ Found {{ count }} link{{ count|pluralize }}!</h2>
+    {% endif %}
+</div>
+</body>
+</html>

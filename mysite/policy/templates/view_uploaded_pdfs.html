@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Uploaded Files</title>
+    <style>
+        body { font-family: Arial; margin: 30px; }
+        .card { border: 1px solid #ccc; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #f9f9f9; }
+        .btn { padding: 8px 12px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; margin-right: 10px; }
+        .btn:hover { background: #0056b3; }
+        .danger { background: #dc3545; }
+    </style>
+</head>
+<body>
+    <h1>📁 Uploaded PDFs (from file)</h1>
+    <a href="/" class="btn">← Back to Home</a>
+    <a href="{% url 'view_saved' %}" class="btn">📚 All Saved</a>
+    <hr>
+
+    {% for policy in policies %}
+        <div class="card">
+            <h3>{{ policy.title }}</h3>
+            <p><strong>Date:</strong> {{ policy.date }}</p>
+            <a href="{% url 'view_policy' policy.id %}" class="btn">👁️ View</a>
+
+            {% if policy.pdf_file %}
+                <a href="{{ policy.pdf_file.url }}" class="btn" target="_blank">📄 View PDF</a>
+            {% else %}
+                <span style="color: grey;">No PDF attached</span>
+            {% endif %}
+
+            <a href="{% url 'delete_policy' policy.id %}" class="btn danger" onclick="return confirm('Delete this file?')">🗑️ Delete</a>
+        </div>
+    {% empty %}
+        <p>No uploaded PDF files found.</p>
+    {% endfor %}
+</body>
+</html>

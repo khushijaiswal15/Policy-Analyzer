@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF & HTML Links Saved</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            padding: 30px;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .back {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .tag {
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: white;
+            margin-left: 8px;
+        }
+        .tag.pdf { background-color: #28a745; }
+        .tag.html { background-color: #17a2b8; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/" class="back">← Back to Upload</a>
+    <h1>✅ Links Extracted Successfully</h1>
+    <p><strong>{{ count }}</strong> link{{ count|pluralize }} saved from the URL.</p>
+
+    {% if links %}
+        <h2>🔗 Extracted Links:</h2>
+        <ul>
+            {% for link in links %}
+                <li>
+                    <a href="{{ link.link }}" target="_blank">{{ link.link }}</a>
+                    <span class="tag {{ link.link_type }}">{{ link.link_type|upper }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No links found at the provided URL.</p>
+    {% endif %}
+
+    <a href="{% url 'monitor_extraction' job.id %}" class="btn">📡 Monitor Job</a>
+    <a href="{% url 'view_url_pdfs' %}" class="btn">📂 View All Extracted Links</a>
+</div>
+</body>
+</html>

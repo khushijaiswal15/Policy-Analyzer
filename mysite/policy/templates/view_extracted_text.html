@@ -1,0 +1,49 @@
+<!-- view_extracted_text.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Extracted Text Detail</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { background-color: #f9f9f9; padding: 20px; border-radius: 10px; max-width: 900px; margin: auto; }
+        .url { font-weight: bold; font-size: 18px; margin-bottom: 15px; color: #007BFF; }
+        .text {
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            /* remove pre-wrap because we are rendering HTML */
+        }
+        a { 
+            display: inline-block; 
+            margin-bottom: 15px; 
+            text-decoration: none; 
+            color: #007bff; 
+        }
+        a:hover { 
+            text-decoration: underline; 
+        }
+        /* Optional: style for headings inside extracted text */
+        .text h1, .text h2, .text h3, .text h4, .text h5, .text h6 {
+            color: #333;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        .text p {
+            margin-bottom: 1em;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'view_extracted_texts' %}">← Back to All Extracted Texts</a>
+
+    <div class="container">
+        <div class="url">🔗 URL: {{ item.link.link }}</div>
+
+        <div class="text">
+            {{ item.text|safe }}
+        </div>
+    </div>
+</body>
+</html>

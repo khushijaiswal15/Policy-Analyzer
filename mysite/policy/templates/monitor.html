@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>📡 Monitor Extraction - FCA Document Crawler</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            padding: 40px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 10px 10px 0 0;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            padding-left: 20px;
+            margin-top: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        .summary {
+            background: #f1f1f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .summary p {
+            margin: 6px 0;
+        }
+        .note {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📡 Monitoring URL Extraction</h1>
+
+        <div class="summary">
+            <p><strong>Status:</strong> {{ job.status|capfirst }}</p>
+            <p><strong>Submitted URL:</strong> <a href="{{ job.url }}" target="_blank">{{ job.url }}</a></p>
+            <p><strong>Total Extracted Links:</strong> {{ total_count }}</p>
+            <p><strong>PDF Links:</strong> {{ pdf_count }}</p>
+            <p><strong>HTML Links:</strong> {{ html_count }}</p>
+        </div>
+
+        <div class="note">
+            ⚠️ Extraction is intentionally limited to 10 seconds to ensure fast response times.
+        </div>
+
+        {% if extracted_links %}
+            <h3>🔗 Extracted Document Links</h3>
+            <ul>
+                {% for link in extracted_links %}
+                    <li><strong>{{ forloop.counter }}.</strong> [{{ link.link_type|upper }}]
+                        <a href="{{ link.link }}" target="_blank">{{ link.link }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>⏳ No document links extracted yet.</p>
+        {% endif %}
+
+        <a href="{% url 'monitor_extraction' job.id %}" class="btn">🔁 Refresh Progress</a>
+        <a href="{% url 'view_url_pdfs' %}" class="btn">📂 View Saved Links</a>
+        <a href="/" class="btn">⬅️ Back to Upload</a>
+    </div>
+</body>
+</html>

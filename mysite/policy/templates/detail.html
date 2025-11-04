@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ policy.title }}</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        .back { margin-bottom: 20px; display: inline-block; }
+        ul { padding-left: 20px; }
+    </style>
+</head>
+<body>
+    <a href="{% url 'view_saved' %}" class="back">← Back to Saved Files</a>
+    <h1>{{ policy.title }}</h1>
+    <p><strong>Date:</strong> {{ policy.date }}</p>
+    <h3>📝 Summary</h3>
+    <p>{{ policy.summary }}</p>
+    <h3>👥 Affected</h3>
+    <p>{{ policy.affected }}</p>
+    <h3>🏛️ Sector Impacts</h3>
+    <ul>
+        {% for sector, impact in policy.sector_impacts.items %}
+            <li><strong>{{ sector }}:</strong> {{ impact }}</li>
+        {% endfor %}
+    </ul>
+    <h3>🔥 Most Impacted Sector</h3>
+    <p><strong>{{ policy.most_sector }}</strong>: {{ policy.most_text }}</p>
+</body>
+</html>

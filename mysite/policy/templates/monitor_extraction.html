@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🔍 Monitoring Extraction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef1f5;
+            padding: 30px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #34495e;
+            margin-bottom: 20px;
+        }
+        p {
+            margin: 8px 0;
+        }
+        .info-box {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background: #28a745;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🔍 Monitoring URL Extraction</h1>
+
+    <div class="info-box">
+        ⏱️ Note: Extraction is limited to 10 seconds to ensure quick results.
+    </div>
+
+    <p><strong>Status:</strong> {{ job.status|capfirst }}</p>
+    <p><strong>Submitted URL:</strong> <a href="{{ job.url }}" target="_blank">{{ job.url }}</a></p>
+    <p><strong>Total Links Extracted:</strong> {{ total_count }}</p>
+    <p><strong>PDF Links:</strong> {{ pdf_count }}</p>
+    <p><strong>HTML Page Links:</strong> {{ html_count }}</p>
+
+    <p>📡 This operation is quick but may not extract every subpage due to the time limit.</p>
+
+    <a href="{% url 'monitor_extraction' job.id %}" class="btn">🔁 Refresh Progress</a>
+</div>
+</body>
+</html>

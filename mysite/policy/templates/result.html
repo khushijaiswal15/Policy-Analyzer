@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Policy Analyzer</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 40px;
+            background: #f7f7f7;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 900px;
+            margin: auto;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        hr {
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📄 Policy Analyzer</h1>
+
+    <!-- Upload Form -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">📤 Analyze</button>
+    </form>
+
+    <!-- Navigation Buttons -->
+    <a href="{% url 'view_uploaded_pdfs' %}" class="btn">📂 Uploaded Files</a>
+    <a href="{% url 'view_url_pdfs' %}" class="btn">🌐 URL Extracted</a>
+    <a href="{% url 'upload_from_url' %}" class="btn">➕ Upload from URL</a>
+    <form method="post" action="{% url 'extract_next_100' %}" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success mb-3">
+        🔄 Extract Text from Next 100 Unprocessed Links (PDF + HTML)
+    </button>
+</form>
+
+<a href="{% url 'view_extracted_texts' %}" class="btn btn-primary">📄 View Extracted Texts</a>
+
+
+    {% if title %}
+        <hr>
+        <h2>📌 Title: {{ title }}</h2>
+        <h3>📅 Date: {{ date }}</h3>
+
+        <h3>📝 Summary</h3>
+        <p>{{ summary }}</p>
+
+        <h3>👥 Affected Groups</h3>
+        <p>{{ affected }}</p>
+
+        <h3>🏛️ Sector Impacts</h3>
+        {% if sector_impacts %}
+            <ul>
+                {% for sector, impact in sector_impacts.items %}
+                    {% if impact and impact|lower != "not mentioned" %}
+                        <li><strong>{{ sector }}:</strong> {{ impact }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No sector-specific impacts found.</p>
+        {% endif %}
+
+        <h3>🔥 Most Impacted Sector</h3>
+        {% if most_sector != "None" %}
+            <p><strong>{{ most_sector }}</strong>: {{ most_text }}</p>
+        {% else %}
+            <p><strong>None:</strong> No sector significantly mentioned.</p>
+        {% endif %}
+    {% endif %}
+</div>
+</body>
+</html>

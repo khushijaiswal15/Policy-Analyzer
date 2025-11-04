@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Saved Policies</title>
+    <style>
+        body { font-family: Arial; background: #f1f1f1; padding: 30px; }
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .danger { background: #dc3545; }
+        .btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <h1>📚 Saved Policy Analyses</h1>
+    <a href="/" class="btn">← Back to Home</a>
+    <hr>
+    {% for policy in policies %}
+        <div class="card">
+            <h3>{{ policy.title }}</h3>
+            <p><strong>Date:</strong> {{ policy.date }}</p>
+            <a href="{% url 'view_policy' policy.id %}" class="btn">👁️ View</a>
+            {% if policy.pdf_file %}
+                <a href="{{ policy.pdf_file.url }}" class="btn" target="_blank">📄 View PDF</a>
+            {% elif policy.source_url %}
+                <a href="{{ policy.source_url }}" class="btn" target="_blank">🌐 View Source</a>
+            {% endif %}
+            <a href="{% url 'delete_policy' policy.id %}" class="btn danger">🗑️ Delete</a>
+        </div>
+    {% empty %}
+        <p>No saved policies yet.</p>
+    {% endfor %}
+</body>
+</html>
